@@ -1,0 +1,6 @@
+service/core/AbstractPharmacyService.class
+service/core/StockResponse.class
+service/core/StockResponse$StockResponseBuilder.class
+service/core/ApplicationConstants.class
+service/core/AvailableStock.class
+service/core/Medicine.class

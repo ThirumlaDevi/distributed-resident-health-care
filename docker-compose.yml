@@ -1,0 +1,218 @@
+version: '3'
+services:
+  database:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: "tyy"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "userpwd"
+      MYSQL_ROOT_PASSWORD: "rootpwd"
+    ports:
+      - published: 3307
+        target: 3306
+    volumes:
+      # - ./init.sql:/home/db_dump.sql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    # command: sh -c "chmod -R 775 /docker-entrypoint-initdb.d"   
+    networks:
+      tyy:
+        aliases:
+          - "mysql-server"
+    healthcheck:
+      test:  "mysql -h localhost -P 3306 -uuser -puserpwd -e \"use tyy; desc pharma1; desc pharma2; desc pharma3;\""
+      interval: 1s
+      timeout: 3s
+      retries: 30
+      start_period: 1m
+
+  # eureka-service-1:
+  #   build: ./eureka-service
+  #   environment:
+  #     EUREKA_SERVER_URI_1: "eureka-server-2:9002"
+  #     EUREKA_SERVER_URI_2: "eureka-server-3:9003"
+  #     SPRING_PROFILES_ACTIVE: "eureka-server-1"
+  #   ports:
+  #     - published: 9001
+  #       target: 9001
+  #   networks:
+  #     tyy:
+  #       aliases:
+  #         - "eureka-server-1"
+  #   depends_on:
+  #     database:
+  #       condition: service_healthy
+
+  # eureka-service-2:
+  #   build: ./eureka-service
+  #   environment:
+  #     EUREKA_SERVER_URI_1: "eureka-server-1:9001"
+  #     EUREKA_SERVER_URI_2: "eureka-server-3:9003"
+  #     SPRING_PROFILES_ACTIVE: "eureka-server-2"
+  #   ports:
+  #     - published: 9002
+  #       target: 9002
+  #   networks:
+  #     tyy:
+  #       aliases:
+  #         - "eureka-server-2"
+  #   depends_on:
+  #     database:
+  #       condition: service_healthy
+
+  # eureka-service-3:
+  #   build: ./eureka-service
+  #   environment:
+  #     EUREKA_SERVER_URI_1: "eureka-server-1:9001"
+  #     EUREKA_SERVER_URI_2: "eureka-server-2:9002"
+  #     SPRING_PROFILES_ACTIVE: "eureka-server-3"
+  #   ports:
+  #     - published: 9003
+  #       target: 9003
+  #   networks:
+  #     tyy:
+  #       aliases:
+  #         - "eureka-server-3"
+  #   depends_on:
+  #     database:
+  #       condition: service_healthy
+
+  # gateway-service:
+  #   build: ./gateway-service
+  #   environment:
+  #     EUREKA_SERVER_URI: "http://eureka-server-1:9001/eureka,http://eureka-server-2:9002/eureka,http://eureka-server-3:9003/eureka"
+  #   ports:
+  #     - published: 8072
+  #       target: 8072
+  #   networks:
+  #     tyy:
+  #       aliases:
+  #         - "gateway-server"
+  #   depends_on:
+  #     database:
+  #       condition: service_healthy
+  #     eureka-service-1:
+  #       condition: service_started
+  #     eureka-service-2:
+  #       condition: service_started
+  #     eureka-service-3:
+  #       condition: service_started
+
+  # yan-pharmacy-service-1:
+  #   build: ./yan-pharmacy-service
+  #   environment:
+  #     MYSQL_SERVER_URI: "mysql-server:3306"
+  #     EUREKA_SERVER_URI: "http://eureka-server-1:9001/eureka,http://eureka-server-2:9002/eureka,http://eureka-server-3:9003/eureka"
+  #     CONTAINER_NUMBER: "ONE"
+  #   ports:
+  #     - published: 8081
+  #       target: 8081
+  #   networks:
+  #     tyy:
+  #       aliases:
+  #         - "yan-pharmacy-server-1"
+  #   depends_on:
+  #     gateway-service:
+  #       condition: service_started
+  #     database:
+  #       condition: service_healthy
+
+  # yan-pharmacy-service-2:
+  #   build: ./yan-pharmacy-service
+  #   environment:
+  #     MYSQL_SERVER_URI: "mysql-server:3306"
+  #     EUREKA_SERVER_URI: "http://eureka-server-1:9001/eureka,http://eureka-server-2:9002/eureka,http://eureka-server-3:9003/eureka"
+  #     CONTAINER_NUMBER: "TWO"
+  #   ports:
+  #     - published: 8082
+  #       target: 8081
+  #   networks:
+  #     tyy:
+  #       aliases:
+  #         - "yan-pharmacy-server-2"
+  #   depends_on:
+  #     gateway-service:
+  #       condition: service_started
+  #     database:
+  #       condition: service_healthy
+
+  # yue-pharmacy-service-1:
+  #   build: ./yue-pharmacy-service
+  #   environment:
+  #     MYSQL_SERVER_URI: "mysql-server:3306"
+  #     EUREKA_SERVER_URI: "http://eureka-server-1:9001/eureka,http://eureka-server-2:9002/eureka,http://eureka-server-3:9003/eureka"
+  #     CONTAINER_NUMBER: "ONE"
+  #   ports:
+  #     - published: 8083
+  #       target: 8081
+  #   networks:
+  #     tyy:
+  #       aliases:
+  #         - "yue-pharmacy-server-1"
+  #   depends_on:
+  #     gateway-service:
+  #       condition: service_started
+  #     database:
+  #       condition: service_healthy
+
+  # yue-pharmacy-service-2:
+  #   build: ./yue-pharmacy-service
+  #   environment:
+  #     MYSQL_SERVER_URI: "mysql-server:3306"
+  #     EUREKA_SERVER_URI: "http://eureka-server-1:9001/eureka,http://eureka-server-2:9002/eureka,http://eureka-server-3:9003/eureka"
+  #     CONTAINER_NUMBER: "TWO"
+  #   ports:
+  #     - published: 8084
+  #       target: 8081
+  #   networks:
+  #     tyy:
+  #       aliases:
+  #         - "yue-pharmacy-server-2"
+  #   depends_on:
+  #     gateway-service:
+  #       condition: service_started
+  #     database:
+  #       condition: service_healthy
+
+  td-pharmacy-service-1:
+    build: ./td-pharmacy-service
+    environment:
+      MYSQL_SERVER_URI: "mysql-server:3306"
+      # EUREKA_SERVER_URI: "http://eureka-server-1:9001/eureka,http://eureka-server-2:9002/eureka,http://eureka-server-3:9003/eureka"
+      CONTAINER_NUMBER: "ONE"
+    ports:
+      - published: 8085
+        target: 8081
+    networks:
+      tyy:
+        aliases:
+          - "td-pharmacy-server-1"
+    depends_on:
+      # gateway-service:
+      #   condition: service_started
+      database:
+        condition: service_healthy
+
+  td-pharmacy-service-2:
+    build: ./td-pharmacy-service
+    environment:
+      MYSQL_SERVER_URI: "mysql-server:3306"
+      # EUREKA_SERVER_URI: "http://eureka-server-1:9001/eureka,http://eureka-server-2:9002/eureka,http://eureka-server-3:9003/eureka"
+      CONTAINER_NUMBER: "TWO"
+    ports:
+      - published: 8086
+        target: 8081
+    networks:
+      tyy:
+        aliases:
+          - "td-pharmacy-server-2"
+    depends_on:
+      # gateway-service:
+      #   condition: service_started
+      database:
+        condition: service_healthy
+
+networks:
+  # td - yue - yan
+  tyy:
+    driver: bridge

@@ -1,0 +1,38 @@
+@startuml Resident health care system
+actor resident1
+actor doctor1
+actor doctor2
+actor doctor3
+
+component "Resident Heath care" {
+    [Docter service] 
+    [User service]
+}
+
+doctor1 --> [Docter service] 
+doctor2 --> [Docter service] 
+doctor3 --> [Docter service] 
+
+resident1 --> [User service]
+resident2....n --> [User service]
+
+[Pharmacy broker] <--> [Pharmaceutical service 2]
+[Pharmacy broker] <--> [Pharmaceutical service 1]
+
+
+note left of (Pharmacy broker)
+  Broker service to communicate with 
+  pharmacies to get options and place orders
+end note
+
+[User service] -> [Docter service] :"Book appointment"
+[Docter service] --> [Pharmacy broker] :"Send prescription"
+[Pharmacy broker] <--> [Service discovery system]: "find available pharmaceutical services"
+[Pharmacy broker] <--> [Pharmaceutical service 3]: "find medicine availability"
+note top of (Service discovery system)
+  Service discovery system helps to discover 
+  and communicate with available services
+end note
+[Pharmacy broker] -[#blue]-> [User service] :"Send options"
+[User service] -[#blue]-> [Pharmacy broker] :"Selected option to place order"
+@enduml

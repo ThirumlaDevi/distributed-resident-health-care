@@ -1,0 +1,5 @@
+ucd/healthcare/yuepharmacy/YuePharmacyApplication.class
+ucd/healthcare/yuepharmacy/repository/YuePharmacyRepository.class
+ucd/healthcare/yuepharmacy/controller/YuePharmacyController.class
+ucd/healthcare/yuepharmacy/model/YuePharmaMedicine.class
+ucd/healthcare/yuepharmacy/service/YuePharmacyService.class

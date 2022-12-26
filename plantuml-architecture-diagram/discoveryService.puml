@@ -1,0 +1,22 @@
+@startuml Discovery service
+[Pharmaceutical service 1] --> [Service discovery system] : "registers"
+[Pharmaceutical service 2] --> [Service discovery system] : "registers"
+[Pharmaceutical service 3] --> [Service discovery system] : "registers"
+[Service discovery system] <-[#blue]> [Pharmaceutical service 1] : "check heartbeat"
+[Service discovery system] <-[#blue]> [Pharmaceutical service 2]
+[Service discovery system] <-[#blue]> [Pharmaceutical service 3]
+
+note top of (Service discovery system)
+  All services register to service discovery system when it's booted up
+  This system makes sure to check the heartbeat of the registered services
+  If no heartbeat is found then the registration is removed
+  This helps discover server failures and communicate with available services,
+  even though some servers may be down or in the process of booting up
+  This can also be used to boot up services for those with no heartbeat using scripts
+end note
+
+[Docter service] --> [Service discovery system] : "registers"
+[User service] --> [Service discovery system] : "registers"
+[Service discovery system] <-[#blue]> [Docter service]
+[Service discovery system] <-[#blue]> [User service] : "check heartbeat"
+@enduml

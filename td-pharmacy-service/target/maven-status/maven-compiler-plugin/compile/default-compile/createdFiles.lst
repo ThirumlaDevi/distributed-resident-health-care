@@ -1,0 +1,7 @@
+ucd/healthcare/tdpharmacy/service/tdpharmacyService.class
+ucd/healthcare/tdpharmacy/tdpharmacyApplication.class
+ucd/healthcare/tdpharmacy/model/TDPharmaMedicine.class
+ucd/healthcare/tdpharmacy/controller/tdpharmacyController.class
+ucd/healthcare/tdpharmacy/repository/tdpharmacyRepository.class
+ucd/healthcare/tdpharmacy/repository/tdpharmacyOrderRepository.class
+ucd/healthcare/tdpharmacy/model/TDPharmaOrder.class

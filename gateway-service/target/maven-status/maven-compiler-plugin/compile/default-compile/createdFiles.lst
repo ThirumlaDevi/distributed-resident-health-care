@@ -1,0 +1,4 @@
+ucd/healthcare/gateway/filters/FilterUtils.class
+ucd/healthcare/gateway/ApiGatewayServerApplication.class
+ucd/healthcare/gateway/filters/TrackingFilter.class
+ucd/healthcare/gateway/filters/ResponseFilter.class

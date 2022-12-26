@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: td-pharmacy-service
+  cloud:
+    config:
+      import-check:
+        enabled: false
+#    config:
+#      uri: http://configservice:8071
+    loadbalancer:
+      ribbon:
+        enabled: false
+  datasource:
+    url: jdbc:mysql://${MYSQL_SERVER_URI}/tyy
+    # url: jdbc:mysql://localhost:3307/tyy
+    username: user
+    password: userpwd
+  jpa:
+    properties:
+      hibernate:
+        # dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+server:
+  port: 8081
+
+# eureka:
+#   instance:
+#     prefer-ip-address: true
+#   client:
+#     register-with-eureka: true
+#     fetch-registry: true
+#     serviceUrl:
+#       defaultZone: ${EUREKA_SERVER_URI}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    enabled-by-default: true
+

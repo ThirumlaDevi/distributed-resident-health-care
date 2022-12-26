@@ -1,0 +1,6 @@
+- endpoint to check availability and change stock
+- list post medicines
+- change architecture diagram
+- swagger endpoints (not crucial)
+- better api design on endpoints - done
+- Update variable constraints
